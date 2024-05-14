@@ -5,18 +5,19 @@ from typing import Callable
 def generator_numbers(text: str):
     # Використання регулярного виразу для знаходження всіх дійсних чисел у тексті
     pattern = r"\b\d+\.\d+\b"
-    return re.findall(pattern, text)
+    matches = re.findall(pattern, text)
+
+     # Створення генератора для повернення чисел по одному
+    for match in matches:
+        yield Decimal(match)
 
 
 def sum_profit(text: str, func: Callable):
     # Отримати числа з тексту
-    numbers = func(text)
-    
-    # Перетворити список рядків у список Decimal
-    numbers = map(Decimal, numbers)
+    numbers_generator = func(text)
 
     # Обчислення загальної суми чисел
-    total = sum(numbers)
+    total = sum(numbers_generator)
     return total
 
 # Приклад використання
